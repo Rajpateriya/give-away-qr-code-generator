@@ -12,7 +12,6 @@ app.use(express.json());
 // Connect to MongoDB
 mongoose.connect(process.env.DB);
 
-// Define Giveaway Schema
 const giveawaySchema = new mongoose.Schema({
   giveawayId: String,
   totalAmount: Number,
@@ -28,7 +27,7 @@ const giveawaySchema = new mongoose.Schema({
 
 const Giveaway = mongoose.model('Giveaway', giveawaySchema);
 
-// Create a new giveaway
+
 app.post('/giveaway', async (req, res) => {
   try {
     const { totalAmount, perUserAmount } = req.body;
@@ -52,7 +51,7 @@ app.post('/giveaway', async (req, res) => {
   }
 });
 
-// Process a QR code scan
+
 app.post('/scan/:giveawayId', async (req, res) => {
   try {
     const { giveawayId } = req.params;
@@ -68,7 +67,7 @@ app.post('/scan/:giveawayId', async (req, res) => {
       return res.status(400).json({ error: 'Giveaway has ended' });
     }
 
-    // Simulate UPI transaction
+    
     const transactionSuccess = await simulateUpiTransaction(userId, giveaway.perUserAmount);
 
     if (transactionSuccess) {
@@ -90,7 +89,7 @@ app.post('/scan/:giveawayId', async (req, res) => {
   }
 });
 
-// Get giveaway statistics
+
 app.get('/giveaway/:giveawayId/stats', async (req, res) => {
   try {
     const { giveawayId } = req.params;
@@ -117,7 +116,7 @@ app.get('/giveaway/:giveawayId/stats', async (req, res) => {
 // Mock UPI transaction API
 async function simulateUpiTransaction(userId, amount) {
   try {
-    // In a real scenario, you would integrate with an actual UPI API
+    // In a real scenario, we would integrate with an actual UPI API
     // For testing, we'll simulate a successful transaction
     console.log(`Simulating UPI transaction: ${amount} to ${userId}`);
     return true;
